@@ -6,10 +6,10 @@ This program allows the user to take a single qubit state quantum system (aka an
 These operators include quantum gate operators as well as the Pauli spin* and rotation matricies.
 
 *Note that just because they are called "Pauli spin", that does not mean they can only be used on systems with spin. They can be used on any two level quantum system.
-## The list of operators included are:
-### Currently Available:
+## Feature Status:
+### Implemented:
 N/A
-### To be added:
+### Planned:
    - Hadamard Gate (H)
    - Pauli Gates/Spin Matricies ((\(\sigma _{x},\sigma _{y},\sigma _{z}\))
    - Rotation Gates (Pauli Rotation Matricies) (\(R_{i}(\theta )\))
