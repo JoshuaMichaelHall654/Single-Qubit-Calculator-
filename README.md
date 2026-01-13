@@ -9,8 +9,9 @@
 
 In the future, I may switch over to using a server over webassembly, mostly for speed reasons, but for now, webassembly will have to do.
 
-## 2. I used emscripten (https://emscripten.org/index.html) to create the webassembly. I did this mostly because emscripten was the first thing I could find that mentioned
-integrating C++ and Javascript through webassembly. Additionally, it was rather easy to use thanks to robust documentation.
+## 2. I used emscripten (https://emscripten.org/index.html) to create the webassembly. 
+
+I did this mostly because emscripten was the first thing I could find that mentioned integrating C++ and Javascript through webassembly. Additionally, it was rather easy to use thanks to robust documentation.
 
 # How to compile.
 
