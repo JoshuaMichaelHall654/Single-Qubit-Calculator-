@@ -1,0 +1,7 @@
+Should we measure outcomes of states not in the z basis? I.e., when you apply sigma x, your resulting state is a superposition of |+> and |->, not |0> and |1>. So like, are we going to measure that?
+	Buddy you got it twisted up. Applying the operator like sigma_x|psi> does not change the available states the system can collapse to. If |psi> is a linear combination of 0 and 1 states, then only the probability it ends in those states when measured (in the z basis) change. The possible outcomes do not change by applying a gate. You are thinking of measuring using an operator, which does change the possible states. For measuring with sigma_x, the probability of psi collapsing into |+> state is |<+|psi>|^2, and the probability of collapsing into |-> when measured is |<-|psi>|^2.
+
+What if someone wants to start with a state outside of the z basis?
+
+What about pure states vs entangled states (are those multi qubit only though)?
+	Yep, multi qubit only. No need to worry about it.
