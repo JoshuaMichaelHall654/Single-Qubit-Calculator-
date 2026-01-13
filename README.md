@@ -10,11 +10,13 @@ These operators include quantum gate operators as well as the Pauli spin* and ro
 ### Implemented:
 N/A
 ### Planned:
-   - Normalization Enforcement
-   - Normalizing for the user (make sure this makes sense)
+   - Reactive normalization check (user can not apply gates without their state being normalized)
+   - "Normalize For Me" button (allow the user to let the simulator normalize for them. Don't want to auto normalize just in case the user made a typo)
+   - "Reset to Starting State" button (if the user applied too many gates, they can start over from the beginning)
+   - "Undo Last Transformation" button (undo only the last thing applied. Can only be done once for scope creep reasons)
+   - Measurement (calculating probabilities that the state ends up in one state or another)
    - Hadamard Gate (H)
    - Identity Gate (I) (for mathematical consistency)
-   - Measurement (calculating probabilities)
    - Pauli Gates/Spin Matricies ((\(\sigma _{x},\sigma _{y},\sigma _{z}\))
    - Rotation Gates (Pauli Rotation Matricies) (\(R_{i}(\theta )\))
    - Phase Gates S (90 degrees rotation around Z) and T (45 degrees rotation around Z)
