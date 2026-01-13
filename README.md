@@ -1,5 +1,5 @@
 # Single Qubit Simulator (C++/React)
-This is a rudimentary single qubit simulator with a web interface, mainly made for practicing C++ and rudimentary full stack development.
+Web-based single-qubit simulator with a C++ backend compiled to WebAssembly and integrated into a React UI. Focuses on API design across the JS/Wasm boundary, performance-oriented numeric computation, and a clean interactive interface.
 
 # What does it do?
 This program allows the user to take a single qubit state quantum system (aka any two level quantum system) as input and apply several quantum operators, simulating the output state. 
@@ -38,8 +38,18 @@ I did this mostly because emscripten was the first thing I could find that menti
 ## The terminal command used to compile the C++ code to the .js and .wasm files was:
 
 ```bash
-emcc "..\projects\Qubit project\Backend\backend.cpp" -lembind -sMODULARIZE=1 -sEXPORT_ES6=1 -sEXPORT_NAME=bigBreakModule -o "..\projects\Qubit project\Frontend\qubit-frontend\src\compiledBackend\backend.out.js"
+emcc "..\projects\Qubit project\Backend\backend.cpp" -lembind -sMODULARIZE=1 -sEXPORT_ES6=1 -sEXPORT_NAME=bigBreakModule -o "..\projects\Qubit project\Frontend\qubit-frontend\src\compiledBackend\backend.out.js
 ```
 If you would like to do this compilation yourself, you will need to install emscripten as the documentation describes here: https://emscripten.org/docs/getting_started/downloads.html. The compilation was done on a windows device, hence the \ instead of /.
 
 ## You can compile the react code using:
+
+# What I learned.
+
+## About emscripten
+
+## About fullstack development choices
+
+## About runtime issues
+
+## Other stuff tba
