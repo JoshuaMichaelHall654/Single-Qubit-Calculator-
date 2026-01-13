@@ -1,4 +1,21 @@
-# What is this (replace this header with the name later)?
+# Single Qubit Simulator (C++/React)
+This is a rudimentary single qubit simulator with a web interface, mainly made for practicing C++ and rudimentary full stack development.
+
+# What does it do?
+This program allows the user to take a single qubit state quantum system (aka any two level quantum system) as input and apply several quantum operators, simulating the output state. 
+These operators include quantum gate operators as well as the Pauli spin* and rotation matricies.
+*Note that just because they are called "Pauli spin", that does not mean they can only be used on systems with spin. They can be used on any two level quantum system.
+## The list of operators included are:
+### Currently Available:
+N/A
+### To be added:
+-Hadamard Gate (H)
+-Pauli Gates/Spin Matricies ((\(\sigma _{x},\sigma _{y},\sigma _{z}\))
+-Rotation Gates (Pauli Rotation Matricies) (\(R_{i}(\theta )\))
+-Identity Gate (I) (for consistency)
+
+# Why doesn't this include multi-qubit states and gates?
+Time constraints
 
 # Design choices:
 
