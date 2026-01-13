@@ -10,19 +10,28 @@ These operators include quantum gate operators as well as the Pauli spin* and ro
 ### Implemented:
 N/A
 ### Planned:
-   - Reactive normalization check (user can not apply gates without their state being normalized)
-   - "Normalize For Me" button (allow the user to let the simulator normalize for them. Don't want to auto normalize just in case the user made a typo)
-   - "Reset to Starting State" button (if the user applied too many gates, they can start over from the beginning)
-   - "Undo Last Transformation" button (undo only the last thing applied. Can only be done once for scope creep reasons)
-   - Measurement (calculating probabilities that the state ends up in one state or another)
-   - Hadamard Gate (H)
-   - Identity Gate (I) (for mathematical consistency)
-   - Pauli Gates/Spin Matricies ((\(\sigma _{x},\sigma _{y},\sigma _{z}\))
-   - Rotation Gates (Pauli Rotation Matricies) (\(R_{i}(\theta )\))
-   - Phase Gates S (90 degrees rotation around Z) and T (45 degrees rotation around Z)
-   - Bloch Sphere Representation. Either:
-        - Simple coordinates in text (X,Y,Z)
-        - Or if time: actual 3D rendering
+- Reactive normalization check - user can not apply gates or measure without their state being normalized
+  - "Normalize For Me" button - allow the user to let the simulator normalize for them. Don't want to auto normalize just in case the user made a typo
+- "Reset to Starting State" button - if the user applied too many gates, they can start over from the beginning
+- "Undo Last Transformation" button - undo only the last thing applied. Can only be done once for scope creep reasons
+- Multiple state input methods - writing in dirac notation, 2 by 1 matrix form, matrix addition form [maybe not this last one]
+- Measurement - calculating probabilities that the state ends up in one state or another
+- Collapse Simulation - simulate the system collapsing into one of the two states using some random number generator
+
+### Gates and Operators
+
+- Hadamard Gate (H)
+- Identity Gate (I) - for mathematical consistency
+- Pauli Gates/Spin Matricies - σx, σy, σz
+- Rotation Gates/Pauli Rotation Matricies - Ri(θ)
+- Phase Gates - S (90 degrees rotation around Z) and T (45 degrees rotation around Z)
+
+### Visualization
+
+- Bloch Sphere Representation
+  - Simple coordinates in text (X,Y,Z)
+  - Or if time: actual 3D rendering
+
 # Why doesn't this include multi-qubit states and gates?
 Time constraints
 
