@@ -9,10 +9,10 @@ These operators include quantum gate operators as well as the Pauli spin* and ro
 ### Currently Available:
 N/A
 ### To be added:
--Hadamard Gate (H)
--Pauli Gates/Spin Matricies ((\(\sigma _{x},\sigma _{y},\sigma _{z}\))
--Rotation Gates (Pauli Rotation Matricies) (\(R_{i}(\theta )\))
--Identity Gate (I) (for consistency)
+   - Hadamard Gate (H)
+   - Pauli Gates/Spin Matricies ((\(\sigma _{x},\sigma _{y},\sigma _{z}\))
+   - Rotation Gates (Pauli Rotation Matricies) (\(R_{i}(\theta )\))
+   - Identity Gate (I) (for consistency)
 
 # Why doesn't this include multi-qubit states and gates?
 Time constraints
