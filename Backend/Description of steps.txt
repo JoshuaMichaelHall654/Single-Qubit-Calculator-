@@ -37,6 +37,9 @@ For clarity (and occasional debugging), we can still set a descriptive name.
 
 emcc "..\projects\Qubit project\Backend\backend.cpp" -lembind -sMODULARIZE=1 -sEXPORT_ES6=1 -sEXPORT_NAME=bigBreakModule -o "..\projects\Qubit project\Backend\backend.out.js".
 
+WHEN YOU WANT TO ADD A NEW FUNCTION FOR THE JS TO SEE, MAKE SURE TO ADD IT TO EMSCRIPTEN_BINDINGS IN THE BACKEND C++ CODE BEFORE COMPILING IT. OTHERWISE, IT WONT BE FOUND IN JS.
+You must also embind irregular data structures, like c++'s complex or any objects you make.
+Make sure to declare objects with using in order to have automatic memory management. 
 
 Some extra notes:
 On name mangling of C++: The documentation mentions C++ coders using emscripten should wrap their code in extern C to avoid "name mangling". This is not relevant to us, because we are using embind and naming the function directly, i.e.emscripten::function("testJS", &testJSFunctionality); (the name within "" is the direct naming).

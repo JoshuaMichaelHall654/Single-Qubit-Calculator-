@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../../App.css";
 import "katex/dist/katex.min.css";
 import { InlineMath } from "react-katex";
@@ -11,8 +11,12 @@ import {
   InputGroup,
   Card,
 } from "react-bootstrap";
-import { abs, evaluate } from "mathjs";
+import { abs, evaluate, equal, complex, multiply } from "mathjs";
 import { checkNormalizationHelper, validateInput } from "../../../compute";
+import backendModule from "../../../compiledBackend/backend.out";
+console.time("time to await backend");
+const backend = await backendModule();
+console.timeEnd("time to await backend");
 
 // Have a function that returns jsx to the return
 function renderInputError(err) {
@@ -20,6 +24,7 @@ function renderInputError(err) {
   if (!err) {
     return null;
   }
+
   switch (err.errorNumber) {
     case 1:
       // Return the jsx, which has regular text not in quotes (not a string), and javascript
@@ -66,6 +71,9 @@ export function StateInputCard({
   normalized,
   setNormalized,
   setSqrNormalization,
+  probZero,
+  probOne,
+  sqrNormalization,
   setProbZero,
   setProbOne,
 }) {
@@ -73,7 +81,12 @@ export function StateInputCard({
   // we have to make sure the values are safe before working with them.
   const [rawAlpha, setRawAlpha] = useState("");
   const [rawBeta, setRawBeta] = useState("");
-
+  // If zero error is true, that means both alpha and beta are zero, and
+  // an error should be displayed
+  const [zeroError, setZeroError] = useState(false);
+  // Define evalAlpha and beta globally
+  const evalAlpha = useRef(0.0);
+  const evalBeta = useRef(0.0);
   // Validate input returns an error message when the input is invalid.
   // If its empty, the input is valid, and so nothing is displayed
   const validationErrorAlpha = validateInput(rawAlpha) || { errorNumber: 0 };
@@ -85,6 +98,8 @@ export function StateInputCard({
     () => {
       // Reset normalized to empty everytime the user types.
       setNormalized("");
+      // Reset the zero error everytime the user types
+      setZeroError(false);
       const id = setTimeout(() => {
         // In here is what we want to happen after typing stops.
         // If both inputs are validated (aka have error number 0) AND both
@@ -97,15 +112,30 @@ export function StateInputCard({
           // this code will hopefully run way less than rawAlpha and Beta
           // will change (which evaluating on every change to values
           // would be very expensive).
-          console.time("yo whatup");
-          let evalAlpha = evaluate(rawAlpha);
-          let evalBeta = evaluate(rawBeta);
+          evalAlpha.current = evaluate(rawAlpha);
+          evalBeta.current = evaluate(rawBeta);
+          // Complex will convert them to complex values whether they are real or complex.
+          evalAlpha.current = complex(evalAlpha.current);
+          evalBeta.current = complex(evalBeta.current);
+          console.log(evalAlpha.current.re + " " + evalAlpha.current.im);
 
           // If the user is subtracting by beta, multiply beta by negative one
           if (addOrSubt === false) {
-            evalBeta = evalBeta * -1;
+            evalBeta.current = multiply(evalBeta.current, -1);
           }
-          const result = checkNormalizationHelper(evalAlpha, evalBeta);
+
+          // If alpha and beta both evaluate to zero, use render input to throw an
+          // error and return to end early
+          if (equal(evalAlpha.current, 0) && equal(evalBeta.current, 0)) {
+            setZeroError(true);
+            return;
+          }
+
+          console.time("yo whatup");
+          const result = checkNormalizationHelper(
+            evalAlpha.current,
+            evalBeta.current
+          );
           console.timeEnd("yo whatup");
 
           // Save prob zero, one and sqrNormalization
@@ -135,7 +165,6 @@ export function StateInputCard({
     <>
       {/**Place everything inside a container with a row for responsive design */}
       <Container>
-        {/*TODO add different sizes for different screens, somewhere */}
         {/**The overall form component*/}
         <Form>
           {/*Rows should go inside forms. In react bootstrap, rows have their own spacing
@@ -243,6 +272,14 @@ export function StateInputCard({
 
         {/*Give it some space from the above row with pt */}
         <Row className="pt-3">
+          {/*This solution to rendering an error with zero might be a bit hack, idk. */}
+          <>
+            {zeroError === false ? null : (
+              <Col>
+                <> Both alpha and beta can not be zero.</>
+              </Col>
+            )}
+          </>
           {/*If "normalized" not calculated (empty), display nothing. Otherwise, display
         whether the state is normalized or not. */}
           <>
@@ -256,7 +293,25 @@ export function StateInputCard({
               <Button
                 variant="outline-primary"
                 onClick={() => {
-                  console.log("test");
+                  // Call normalize for me and recieve the changed values
+                  console.time("backend call");
+                  console.log(
+                    evalAlpha.current.re + " " + evalAlpha.current.im
+                  );
+                  const retrunedStuff = backend.normalizeState(
+                    probZero,
+                    probOne,
+                    sqrNormalization,
+                    // Make sure to pass it as a structure using
+                    // what we defined as our members in the c++ backend
+                    // (re and im). In math.js, complex values get their
+                    // real and imaginary values through .re and .im properties as well,
+                    // so the naming was deliberate.
+                    { re: evalAlpha.current.re, im: evalAlpha.current.im },
+                    { re: evalBeta.current.re, im: evalBeta.current.im }
+                  );
+                  console.timeEnd("backend call");
+                  console.log(retrunedStuff);
                 }}
               >
                 Normalize for me.

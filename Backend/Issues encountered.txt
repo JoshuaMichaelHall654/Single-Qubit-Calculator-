@@ -2,3 +2,8 @@
 Normalization confusion
 How to store and work with complex numbers
 How to store variables we need (normalization, alpha, beta, prob one and two).
+
+1/20/2026:
+How to return functions with objects, how to embind objects, how to embind their members. C++ std::complex not being recognized enscripten, so having to embind it as well or change how its represented.
+
+I fixed these issues by first creating a structure called complexReplacement that contains two doubles to represent complex values. This allows me to pass a structure between js and c++ through emscripten, which is easy to do as long as you bind the struct using value_object and include the structures members. Then, I just convert between std complex and my complex struct replacement when I want to have std complex do the math heavy lifting (no need to rewrite it myself, its easy to convert between the two). Additionally, I also embinded my object, which now contains the complexReplacement struct instead of std::complex<double>, as a value_object. Because of this, it is not technically returned to js as a class where you can do stuff like new Class, but for what I need (just passing the changed values back and forth) its good enough (since I can do stuff like result.prob easily).

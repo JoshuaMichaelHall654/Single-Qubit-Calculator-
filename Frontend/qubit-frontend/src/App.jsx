@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import "katex/dist/katex.min.css";
-import { InlineMath } from "react-katex";
 import {
   Button,
   Container,
@@ -11,8 +10,6 @@ import {
   InputGroup,
   Card,
 } from "react-bootstrap";
-import { abs, evaluate } from "mathjs";
-import { checkNormalizationHelper, validateInput } from "./compute";
 import { StateInputCard } from "./features/state/components/StateInputCard";
 // Import the module from the .js file. The .js file then calls the compiled .wasm file
 // for the actual calculations.
@@ -61,7 +58,7 @@ function App() {
   const [addOrSubt, setAddOrSubt] = useState(true);
 
   // Run .testJS and you will see that it does work!
-  //console.log(backend.testJS());
+  // console.log(backend.testJS());
   return (
     <>
       <Container fluid={true} className="p-0">
@@ -77,6 +74,9 @@ function App() {
                 normalized={normalized}
                 setNormalized={setNormalized}
                 setSqrNormalization={setSqrNormalization}
+                probOne={probOne}
+                probZero={probZero}
+                sqrNormalization={sqrNormalization}
                 setProbZero={setProbZero}
                 setProbOne={setProbOne}
               />

@@ -8,3 +8,4 @@ This didn't affect performance because the new function did not add much time to
 
 Had trouble figuring out how to resize visual elements like the selector to be a good size. 
 Fixed it by using bootstraps 12 column system and giving smaller elements less columns and bigger elements more columns.
+
