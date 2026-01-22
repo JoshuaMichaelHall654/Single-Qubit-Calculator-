@@ -11,7 +11,7 @@ import {
   InputGroup,
   Card,
 } from "react-bootstrap";
-import { abs, evaluate, equal, complex, multiply } from "mathjs";
+import { abs, evaluate, equal, complex, multiply, round } from "mathjs";
 import { checkNormalizationHelper, validateInput } from "../../../compute";
 import backendModule from "../../../compiledBackend/backend.out";
 console.time("time to await backend");
@@ -58,6 +58,7 @@ function renderInputError(err) {
         </>
       );
     case 5:
+      console.log(err.name);
       return <> Unfinished Expression detected </>;
     default:
       return;
@@ -91,6 +92,11 @@ export function StateInputCard({
   // If its empty, the input is valid, and so nothing is displayed
   const validationErrorAlpha = validateInput(rawAlpha) || { errorNumber: 0 };
   const validationErrorBeta = validateInput(rawBeta) || { errorNumber: 0 };
+
+  // Make a state variable to hold the text in the alpha and beta text boxes.
+  // This way, we can change the text when the user clicks "normalize for me"
+  const [alphaText, setAlphaText] = useState("");
+  const [betaText, setBetaText] = useState("");
 
   const delayMs = 300;
   // Debounce aka wait a certain amount of time before taking the user input and checking their normalization.
@@ -134,7 +140,7 @@ export function StateInputCard({
           console.time("yo whatup");
           const result = checkNormalizationHelper(
             evalAlpha.current,
-            evalBeta.current
+            evalBeta.current,
           );
           console.timeEnd("yo whatup");
 
@@ -158,7 +164,7 @@ export function StateInputCard({
     },
     // TODO, pretty sure this is a useEffect anti pattern because while rawAlpha and beta are outside values,
     // they are not external to the program. useEffect is more for getting synced with apis.
-    [rawAlpha, rawBeta, addOrSubt]
+    [rawAlpha, rawBeta, addOrSubt],
   );
 
   return (
@@ -195,10 +201,12 @@ export function StateInputCard({
                     //Form control is the text field. So, it contains what the user writes! You can set
                     //a reference to the object (that contains the text) using ref or set it reactively using onChange.
                     //See an above comment on reference vs state text above.
+                    value={alphaText}
                     onChange={(eventObject) => {
                       // Get the text located in the target event object only if it has a value. Otherwise,
                       // its set to an empty string
                       setRawAlpha(eventObject.target?.value);
+                      setAlphaText(eventObject.target?.value);
                     }}
                   />
                   <InputGroup.Text>
@@ -253,10 +261,14 @@ export function StateInputCard({
                     //Form control is the text field. So, it contains what the user writes! You can set
                     //a reference to the object (that contains the text) using ref or set it reactively using onChange.
                     //See an above comment on reference vs state text above.
+                    value={betaText}
                     onChange={(eventObject) => {
                       // Get the text located in the target event object only if it has a value. Otherwise,
                       // its set to an empty string
+                      // TODO These being different sometimes and the same other times SUCKS SHIT!
+                      // Fix it ME (if you can, I know you are on a time crunch)
                       setRawBeta(eventObject.target?.value);
+                      setBetaText(eventObject.target?.value);
                     }}
                   />
                   <InputGroup.Text>
@@ -296,7 +308,7 @@ export function StateInputCard({
                   // Call normalize for me and recieve the changed values
                   console.time("backend call");
                   console.log(
-                    evalAlpha.current.re + " " + evalAlpha.current.im
+                    evalAlpha.current.re + " " + evalAlpha.current.im,
                   );
                   const retrunedStuff = backend.normalizeState(
                     probZero,
@@ -308,10 +320,42 @@ export function StateInputCard({
                     // real and imaginary values through .re and .im properties as well,
                     // so the naming was deliberate.
                     { re: evalAlpha.current.re, im: evalAlpha.current.im },
-                    { re: evalBeta.current.re, im: evalBeta.current.im }
+                    { re: evalBeta.current.re, im: evalBeta.current.im },
                   );
                   console.timeEnd("backend call");
-                  console.log(retrunedStuff);
+                  console.time("time to change user text");
+                  // Update the text in the textboxes, rounded to 4 decimal places
+                  setAlphaText(
+                    retrunedStuff.alphaStruct.im == 0
+                      ? round(retrunedStuff.alphaStruct.re, 4)
+                      : round(retrunedStuff.alphaStruct.re, 4) +
+                          " + " +
+                          round(retrunedStuff.alphaStruct.re, 4),
+                  );
+
+                  setBetaText(
+                    retrunedStuff.betaStruct.im == 0
+                      ? round(retrunedStuff.betaStruct.re, 4)
+                      : round(retrunedStuff.betaStruct.re, 4) +
+                          " + " +
+                          round(retrunedStuff.betaStruct.re, 4),
+                  );
+                  // Update raw alpha and beta. Remember that raw alpha and beta
+                  // are strings, not things like complex or other expressions
+                  setRawAlpha(
+                    "" +
+                      retrunedStuff.alphaStruct.re +
+                      " + " +
+                      retrunedStuff.alphaStruct.im,
+                  );
+                  setRawBeta(
+                    "" +
+                      retrunedStuff.betaStruct.re +
+                      " + " +
+                      retrunedStuff.betaStruct.im,
+                  );
+                  setNormalized("normalized");
+                  console.timeEnd("time to change user text");
                 }}
               >
                 Normalize for me.
