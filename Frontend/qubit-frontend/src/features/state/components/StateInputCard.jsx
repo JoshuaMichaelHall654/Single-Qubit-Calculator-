@@ -169,6 +169,25 @@ export function StateInputCard({
 
   return (
     <>
+      <Row className="">
+        <Col>
+          <div>
+            <strong>Current capabilities (v0.1):</strong>
+          </div>
+          <div>
+            Enter complex amplitudes, validate expressions, and normalize state
+            (in beta).
+          </div>
+        </Col>
+      </Row>
+      <Row className="">
+        <Col>
+          <div>
+            <strong>Coming up next!: </strong>
+          </div>
+          <div>Simple (Hadamard) Gate, undo and restart, and measurement!</div>
+        </Col>
+      </Row>
       {/**Place everything inside a container with a row for responsive design */}
       <Container>
         {/**The overall form component*/}
@@ -186,12 +205,12 @@ export function StateInputCard({
             is shorter than the other two forms labels (insert amplitude blah blah bal), it 
             "worked". This is because xs="auto" sets (EXPLAIN HERE). Find an actual way to control the selector
             and buttons length that isnt hack  */}
-            <Col xs={12} lg={5}>
+            <Col xs={12} xl={5}>
               {/**The individual component grouping of each form */}
               <Form.Group controlId="ampZero">
                 <Form.Label>
-                  Input the amplitude for <InlineMath math={"|0\\rangle"} />{" "}
-                  here
+                  Input the amplitude for state{" "}
+                  <InlineMath math={"|0\\rangle"} /> here
                 </Form.Label>
 
                 {/**Include input group to have |0⟩ be right next to the textbox */}
@@ -224,7 +243,7 @@ export function StateInputCard({
             (which it is not by default) so we can horizontally center the Form.Group
             below. And justify content center centers the select box to the center of the 
             screen (to emphasize that it is different from the other two selections).*/}
-            <Col xs={12} lg={2} className="d-flex justify-content-center">
+            <Col xs={12} xl={2} className="d-flex justify-content-center">
               {/*TODO, confirm this role has proper accessibility. */}
               <Form.Group controlId="plusOrMinus">
                 <Form.Label>Choose + or -</Form.Label>
@@ -248,7 +267,7 @@ export function StateInputCard({
             at the xs break point. lg = 4 means it takes up 12/3 = 4 of the screen columns at the 
             lg breakpoint. Not setting between xs and lg means that xs, sm, and md will use 12,
             and not setting beyond lg means that lg, xl, and xxl will use 4.  */}
-            <Col xs={12} lg={5}>
+            <Col xs={12} xl={5}>
               <Form.Group controlId="ampOne">
                 <Form.Label>
                   Input the amplitude for state{" "}
@@ -288,7 +307,7 @@ export function StateInputCard({
           <>
             {zeroError === false ? null : (
               <Col>
-                <> Both alpha and beta can not be zero.</>
+                <> Both alpha and beta can not be zero at the same time.</>
               </Col>
             )}
           </>

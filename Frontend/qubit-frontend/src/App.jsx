@@ -61,11 +61,14 @@ function App() {
   // console.log(backend.testJS());
   return (
     <>
+      <div className="mb-5">Welcome!</div>
       <Container fluid={true} className="p-0">
-        <Row>
-          {/*Col to create a left hand side */}
-          <Col xs={7} className="me-auto">
-            <Card className="me-auto">
+        {/** When stacked, give the cards some space */}
+        <Row className="gy-2">
+          {/*Col to create a left hand side.*/}
+          <Col xs={12} sm={7}>
+            {/** Remove the horizontal padding so the text fills up most of the space */}
+            <Card className="px-0 d-flex flex-column gap-3">
               {/* Left hand side card with things like state input, normalization, etc*/}
               {/*Pass down the props correctly */}
               <StateInputCard
@@ -83,7 +86,7 @@ function App() {
             </Card>
           </Col>
           {/*Col to create a right hand side */}
-          <Col xs={5}>
+          <Col xs={12} sm={5}>
             <Card></Card>
           </Col>
         </Row>
