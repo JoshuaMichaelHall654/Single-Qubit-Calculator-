@@ -76,6 +76,12 @@ emcc "..\projects\Qubit project\Backend\backend.cpp" -lembind -sMODULARIZE=1 -sE
 
 If you would like to do this compilation yourself, you will need to install emscripten as the documentation describes here: https://emscripten.org/docs/getting_started/downloads.html. The compilation was done on a windows device, hence the \ instead of /.
 
+# How to test.
+```bash
+npm run test
+```
+Since package.json contains ```"test": "vitest"```
+
 ## You can compile the react code using:
 
 # What I learned.
